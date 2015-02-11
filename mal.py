@@ -70,13 +70,15 @@ def find(regex):
         else:
             padding = int(math.log10(index)) + 3
 
-        status = MyAnimeList.status_names[item['status']].capitalize()
+        status = MyAnimeList.manga_status_names[item['status']].capitalize()
 
         print(str(index) + ': ' + item['title'])
-        print(' ' * padding + status + ' at ' + str(item['episode']) +
-              '/' + str(item['total_episodes']) + ' episodes')
+        print(' ' * padding + status + ' at ' + str(item['read_chapters']) +
+              '/' + str(item['read_volumes']) + ' volumes')
         print()
 
+def listall():
+    print(mal.list())
 
 config = ConfigParser()
 config.read(os.path.expanduser('~/.myanimelist.ini'))
@@ -90,7 +92,10 @@ if len(args) > 1:
         increment(args[1])
 
 elif len(args) == 1:
-    find(args[0])
+    if args[0] == 'list':
+        listall()
+    else:
+        find(args[0])
 
 else:
     print("Usage: mal [command] regex")
